@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+      
+    <div class="container">
+    <h2 class="text-muted">Task Manager App</h2> <br> 
+
+    <form action="" method="post">
+        {% csrf_token %}
+        <label> Title</label>
+        <input type="search" class="form-control col-md-5"  value="{{ form.title }}" placeholder="Add task" name="title" aria-label="search">
+        
+        <button type="submit" class="btn btn-info col-md-5">Add to list</button>
+    </form>
+    <br>
+    <table class="table table-sm table-hover" border="1">
+        <thead>
+          <tr>
+            <!-- <th scope="col">Id</th> -->
+            <th scope="col">Title</th>
+            <th scope="col">Description</th>
+            <th scope="col">Creation date</th>    
+          </tr>
+        </thead>
+
+        <tbody>
+        {% if item %}
+        {% for e in item %}
+          <tr>
+            <!-- <td scope="col">{{e.Id}}</td> -->
+            <td scope="col" class="table-info">{{e.title}}</td>
+            <td scope="col" class="table-success">{{e.description}}</td>
+            <td scope="col" class="table-active">{{e.date_of_creation}}</td>
+          </tr>
+        {% endfor %}
+        {% endif %}
+        </tbody>
+      </table>
+    </div>
+{% endblock %}
+ 
