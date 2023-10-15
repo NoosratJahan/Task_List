@@ -1,0 +1,6 @@
+
+#front{
+    background-image: url("/static/images/frontpage.jpg") no-repeat fixed;   
+    height: 650px;
+    padding: 100px 0 0 0;
+}
