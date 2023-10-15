@@ -8,16 +8,29 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-dark bg-secondary">
-        <a class="navbar-brand" href="{% url 'home' %}">Task Manager</a>
-       
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-          <ul class="navbar-nav">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+    <nav class="navbar navbar-dark bg-dark navbar-expand-md justify-content-end">
+        
+        <li class="navbar-brand">
+            <a class="navbar-brand" href="{% url 'landing' %}">Home</a>
+        </li>
+        {% if user.is_authenticated %}
+            <li class="navbar-brand">
+                <a class="navbar-brand" href="{% url 'home' %}">Task Manager</a>
             </li>
-          </ul>
-        </div>
+            <li class="navbar-brand">
+                <a class="navbar-brand" href="{% url 'task_view' %}">View Details </a>
+            </li>
+            <li class="navbar-brand">
+                <a class="navbar-brand " href="{% url 'logout' %}">Logout </a>
+            </li>
+        {% else %}
+            <li class="navbar-nav">
+            <a class="navbar-brand" href="{% url 'login' %}">Login </a>
+            </li>
+            <li class="navbar-brand">
+                <a class="navbar-brand" href="{% url 'login' %}">Register</a>
+            </li>
+        {% endif %}
     </nav>
     
     {% block content %}
