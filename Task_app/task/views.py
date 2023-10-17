@@ -3,8 +3,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .models import Task
 from .forms import TaskForm
+from django.contrib.auth.forms import UserCreationForm
 
 
+#front page
 def landing_page(request):
     return render(request, 'landing.html')
 
@@ -26,14 +28,28 @@ def login_user(request):
         return render(request, 'login.html')
 
 
+#User Register
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            messages.success(request, ("Registration Successful...."))
+            return redirect('home/')
+    else:
+        form = UserCreationForm(request.POST)
+    return render(request, 'register.html', {'form': form})
+
+
 #User logout
 def logout_user(request):
     logout(request)
     messages.success(request, ("You have been logged out!.."))
     return redirect('/')
-
-
-#User Register
 
 
 #Create
@@ -62,7 +78,17 @@ def task_view(request):
 
 #Update
 def update(request, id):
-    pass
+    item = Task.objects.get(id=id)
+    form = TaskForm(instance=item)
+    context = {'item': item, 'form': form}
+
+    if request.method == 'POST':
+        form = TaskForm(request.POST, instance=item)
+        if form.is_valid():
+            form.save()
+            return redirect('task_view')
+    return render(request, 'update.html', context)
+
 
 
 #Delete
@@ -70,4 +96,5 @@ def delete(request, id):
     item = Task.objects.get(id=id)    
     item.delete()
     return redirect('task_view')
+    
 
